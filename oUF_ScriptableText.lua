@@ -1,6 +1,6 @@
 local parent, ns = ...
 local oUF = oUF
-local WidgetText = assert(LibStub("LibScriptableWidgetText-1.0"))
+local WidgetText = assert(LibStub("LibScriptableWidgetText-1.0"), "oUF_ScriptableText requires LibScriptableWidgetText-1.0")
 
 oUF.ALIGN_LEFT, oUF.ALIGN_CENTER, oUF.ALIGN_RIGHT, oUF.ALIGN_MARQUEE, oUF.ALIGN_AUTOMATIC, oUF.ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
 oUF.SCROLL_RIGHT, oUF.SCROLL_LEFT = 1, 2
