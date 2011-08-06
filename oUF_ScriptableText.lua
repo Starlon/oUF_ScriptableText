@@ -27,11 +27,20 @@ local Enable = function(self, unit)
 		local cols = text.cols or 40
 		local prefix = text.prefix or ""
 		local postfix = text.postfix or ""
-		text.widget = text.widget or WidgetText:New(self.core, name, 
-			{value=value, update=update, repeating=repeating, 
-			speed=speed, direction=direction, align=align, cols=cols, 
-			prefix=prefix, postfix=postfix}, row, col, layer, errorLevel, Update, text)
-		text.widget.environment.unit = unit
+		local widget = text.widget or WidgetText:New(self.core, name, 
+			{value=value}, row, col, layer, errorLevel, Update, text)
+		widget.config.value = value
+		widget.config.update = update
+		widget.config.repeating = repeating
+		widget.config.speed = speed
+		widget.config.direction = direction
+		widget.config.align = align
+		widget.config.cols = cols
+		widget.config.prefix = prefix
+		widget.config.postfix = postfix
+		widget:Init()
+		widget.environment.unit = unit
+		text.widget = widget
 		text.widget:Start()
 		text.widget.fontstring = text
 	end
