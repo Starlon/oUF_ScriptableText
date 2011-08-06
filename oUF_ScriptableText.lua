@@ -5,7 +5,8 @@ local WidgetText = assert(LibStub("LibScriptableWidgetText-1.0"), "oUF_Scriptabl
 oUF.ALIGN_LEFT, oUF.ALIGN_CENTER, oUF.ALIGN_RIGHT, oUF.ALIGN_MARQUEE, oUF.ALIGN_AUTOMATIC, oUF.ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
 oUF.SCROLL_RIGHT, oUF.SCROLL_LEFT = 1, 2
 
-local Update = function(self, fs)
+local Update = function(self)
+	local fs = self.fontstring
 	if fs and fs:GetObjectType() == "FontString" then
 		fs:SetText(self.buffer)
 	end
@@ -18,27 +19,11 @@ local Enable = function(self, unit)
 		local col, row, layer = 0, 0, 0
 		local errorLevel = 2
 		local name = text.name or "ScriptableText"
-		local value = text.value or ""
-		local update = text.update or 0
-		local repeating = text.repeating or false
-		local speed = text.speed or 0
-		local direction = text.direction or 1
-		local align = text.align or 1
-		local cols = text.cols or 40
-		local prefix = text.prefix or ""
-		local postfix = text.postfix or ""
+
 		local widget = text.widget or WidgetText:New(self.core, name, 
-			{value=value}, row, col, layer, errorLevel, Update, text)
-		widget.config.value = value
-		widget.config.update = update
-		widget.config.repeating = repeating
-		widget.config.speed = speed
-		widget.config.direction = direction
-		widget.config.align = align
-		widget.config.cols = cols
-		widget.config.prefix = prefix
-		widget.config.postfix = postfix
-		widget:Init()
+			text, row, col, layer, errorLevel, Update, text)
+		if widget.configModified then widget:Init() end
+
 		widget.environment.unit = unit
 		text.widget = widget
 		text.widget:Start()
