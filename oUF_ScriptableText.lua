@@ -1,8 +1,9 @@
 local parent, ns = ...
 local oUF = oUF
-local LibCore = assert(LibStub("LibScriptableLCDCoreLite-1.0"))
 local WidgetText = assert(LibStub("LibScriptableWidgetText-1.0"))
-local core = LibCore:New({}, "oUF_ScriptableText", 1)
+
+oUF.ALIGN_LEFT, oUF.ALIGN_CENTER, oUF.ALIGN_RIGHT, oUF.ALIGN_MARQUEE, oUF.ALIGN_AUTOMATIC, oUF.ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
+oUF.SCROLL_RIGHT, oUF.SCROLL_LEFT = 1, 2
 
 local Update = function(self, fs)
 	if fs and fs:GetObjectType() == "FontString" then
@@ -12,9 +13,10 @@ end
 
 local Enable = function(self, unit)
 	local text = self.ScriptableText
-	local col, row, layer = 0, 0, 0
-	local errorLevel = 2
 	if text and text:GetObjectType() == "FontString" then
+		assert(self.core)
+		local col, row, layer = 0, 0, 0
+		local errorLevel = 2
 		local name = text.name or "ScriptableText"
 		local value = text.value or ""
 		local update = text.update or 0
@@ -25,7 +27,7 @@ local Enable = function(self, unit)
 		local cols = text.cols or 40
 		local prefix = text.prefix or ""
 		local postfix = text.postfix or ""
-		text.widget = text.widget or WidgetText:New(core, name, 
+		text.widget = text.widget or WidgetText:New(self.core, name, 
 			{value=value, update=update, repeating=repeating, 
 			speed=speed, direction=direction, align=align, cols=cols, 
 			prefix=prefix, postfix=postfix}, row, col, layer, errorLevel, Update, text)
