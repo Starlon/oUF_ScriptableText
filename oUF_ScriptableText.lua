@@ -15,12 +15,23 @@ local Enable = function(self, unit)
 	local col, row, layer = 0, 0, 0
 	local errorLevel = 2
 	if text and text:GetObjectType() == "FontString" then
-		self.widget = self.widget or WidgetText:New(core, self.name or "ScriptableText", {value=self.value, update=100, repeating=self.repeating, speed=self.speed, direction=self.direction, align=self.align, cols=self.cols, prefix=self.prefix, postfix=self.postfix}, row, col, layer, errorLevel, Update, text)
-		self.widget.environment.unit = unit
-		self.widget:Start()
-		text.__owner = self
-		text.__widget = self.widget
-		self.widget.fontstring = text
+		local name = text.name or "ScriptableText"
+		local value = text.value or ""
+		local update = text.update or 0
+		local repeating = text.repeating or false
+		local speed = text.speed or 0
+		local direction = text.direction or 1
+		local align = text.align or 1
+		local cols = text.cols or 40
+		local prefix = text.prefix or ""
+		local postfix = text.postfix or ""
+		text.widget = text.widget or WidgetText:New(core, name, 
+			{value=value, update=update, repeating=repeating, 
+			speed=speed, direction=direction, align=align, cols=cols, 
+			prefix=prefix, postfix=postfix}, row, col, layer, errorLevel, Update, text)
+		text.widget.environment.unit = unit
+		text.widget:Start()
+		text.widget.fontstring = text
 	end
 	return true
 end
