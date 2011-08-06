@@ -11,7 +11,6 @@ local Update = function(self, fs)
 end
 
 local Enable = function(self, unit)
-	self.value = "return 'lolollll'"
 	local text = self.ScriptableText
 	local col, row, layer = 0, 0, 0
 	local errorLevel = 2
