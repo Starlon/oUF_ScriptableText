@@ -18,11 +18,10 @@ local Enable = function(self, unit)
 		assert(self.core)
 		local col, row, layer = 0, 0, 0
 		local errorLevel = 2
-		local name = text.name or "ScriptableText"
+		local name = text.name or ("ScriptableText" .. random())
 
 		local widget = text.widget or WidgetText:New(self.core, name, 
 			text, row, col, layer, errorLevel, Update, text)
-		if widget.configModified then widget:Init() end
 
 		widget.environment.unit = unit
 		text.widget = widget
