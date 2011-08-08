@@ -14,7 +14,7 @@ end
 
 local MyUpdate = function(self, event, unit)
 	if unit ~= self.unit or not self.ScriptableText then return end
-	Update(self.ScriptableText.widget)
+	self.ScriptableText.widget:Start(unit)
 end
 
 local Enable = function(self, unit)
@@ -24,16 +24,14 @@ local Enable = function(self, unit)
 		assert(self.core, "You must provide a LibCore object.")
 		local col, row, layer = 0, 0, 0
 		local errorLevel = 2
-		local name = text.name or ("ScriptableText" .. random() * random() * time())
+		local name = text.name or ("ScriptableText" .. unit .. random())
 
-		text.unitOverride = unit
-
-		local widget = text.widget or WidgetText:New(self.core, name, 
+		local widget = WidgetText:New(self.core, name, 
 			text, row, col, layer, errorLevel, Update, text)
 
 		text.widget = widget
 		text.widget.fontstring = text
-		text.widget:Start()
+		text.widget:Start(unit)
 	end
 	return true
 end
