@@ -12,28 +12,36 @@ local Update = function(self)
 	end
 end
 
+local MyUpdate = function(self, event, unit)
+	if unit ~= self.unit or not self.ScriptableText then return end
+	Update(self.ScriptableText.widget)
+end
+
 local Enable = function(self, unit)
+	if self.unit ~= unit then return end
 	local text = self.ScriptableText
 	if text and text:GetObjectType() == "FontString" then
-		assert(self.core)
+		assert(self.core, "You must provide a LibCore object.")
 		local col, row, layer = 0, 0, 0
 		local errorLevel = 2
-		local name = text.name or ("ScriptableText" .. random())
+		local name = text.name or ("ScriptableText" .. random() * random() * time())
+
+		text.unitOverride = unit
 
 		local widget = text.widget or WidgetText:New(self.core, name, 
 			text, row, col, layer, errorLevel, Update, text)
 
-		widget.environment.unit = unit
 		text.widget = widget
-		text.widget:Start()
 		text.widget.fontstring = text
+		text.widget:Start()
 	end
 	return true
 end
 
 local Disable = function(self)
-	self.widget:Stop()
+	if not self.ScriptableText then return end
+	self.ScriptableText.widget:Stop()
 	return true
 end
 
-oUF:AddElement('ScriptableText', nil, Enable, Disable)
+oUF:AddElement('ScriptableText', MyUpdate, Enable, Disable)
